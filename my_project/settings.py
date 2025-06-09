@@ -121,3 +121,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#データベース設定 posgresql
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'store_db',     # db名
+        'USER': 'haruto',
+        'PASSWORD': 'aoki051791',  
+        'HOST': 'localhost',
+        'PORT': '5432',   # デフォルトポート
+    }
+}
