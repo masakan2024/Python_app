@@ -128,3 +128,5 @@ DATABASES = {
         'PORT': '5432',   # デフォルトポート
     }
 }
+
+AUTH_USER_MODEL = 'event_app.CustomUser'
