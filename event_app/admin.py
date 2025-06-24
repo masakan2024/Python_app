@@ -1,7 +1,7 @@
 #カスタムユーザーモデルをadmin管理画面でも表示される
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from accounts.models import CustomUser
 from .models import Item, OrderItem, Order
 
 

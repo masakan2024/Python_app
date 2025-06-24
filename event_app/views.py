@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Item, OrderItem, Order, Payment
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from .models import CustomUser
+from accounts.models import CustomUser
 from django.conf import settings
 
 class IndexView(ListView):
@@ -46,7 +46,6 @@ class PaymentView(LoginRequiredMixin, View):
         return render(request, 'app/payment.html', context)
 
     def post(self, request, *args, **kwargs):
-        stripe.api_key = settings.STRIPE_SECRET_KEY
         order = Order.objects.get(user=request.user, ordered=False)
         token = request.POST.get('stripeToken')
         amount = order.get_total()
@@ -56,24 +55,13 @@ class PaymentView(LoginRequiredMixin, View):
             item_list.append(str(order_item.item) + '：' + str(order_item.quantity))
         description = ' '.join(item_list)
 
-        charge = stripe.Charge.create(
-            amount=amount,
-            currency='jpy',
-            description=description,
-            source=token,
-        )
 
-        payment = Payment(user=request.user)
-        payment.stripe_charge_id = charge['id']
-        payment.amount = amount
-        payment.save()
 
         order_items.update(ordered=True)
         for item in order_items:
             item.save()
 
         order.ordered = True
-        order.payment = payment
         order.save()
         return redirect('thanks')
 
@@ -145,6 +133,6 @@ def removeSingleItem(request, slug):
             else:
                 order.items.remove(order_item)
                 order_item.delete()
-            return redirect("order")
+            return redirect("order") 
 
     return redirect("product", slug=slug)

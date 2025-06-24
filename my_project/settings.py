@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'event_app',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -129,4 +130,4 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'event_app.CustomUser'
+AUTH_USER_MODEL = 'accounts.CustomUser'
